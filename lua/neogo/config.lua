@@ -40,7 +40,6 @@ local config = {}
 ---@field gotests table          Configuration for gotests.
 ---@field iferr IfErrConfig      Configuration for iferr.
 ---@field impl table             Configuration for impl.
----@field fillstruct table       Configuration for fillstruct.
 ---@field fillswitch table       Configuration for fillswitch.
 ---@field goenum table           Configuration for goenum.
 
@@ -88,10 +87,7 @@ config.options = {
 			cmd = "impl",
 			install_cmd = "go install github.com/josharian/impl@latest",
 		},
-		fillstruct = {
-			cmd = "fillstruct",
-			install_cmd = "go install github.com/davidrjonas/fillstruct@latest",
-		},
+		-- TODO: recursive (or not) fillstruct using gopls
 		fillswitch = {
 			cmd = "fillswitch",
 			install_cmd = "go install github.com/davidrjonas/fillswitch@latest",
