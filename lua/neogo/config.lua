@@ -8,7 +8,7 @@ local config = {}
 ---@field install_cmd string       Command to install gomodifytags if missing.
 ---@field popup_input boolean      If true, prompt the user for extra arguments.
 ---@field add_options string|nil   Comma separated key=option pairs, e.g. "json=omitempty,hcl=squash".
----@field add_tags string|nil      Tags to add as a comma separated list. Keys can include static values, e.g. "json:foo,xml". 
+---@field add_tags string|nil      Tags to add as a comma separated list. Keys can include static values, e.g. "json:foo,xml".
 ---@field all boolean              If true, process all structs.
 ---@field clear_options boolean    If true, clear all tag options.
 ---@field clear_tags boolean       If true, clear all tags.
@@ -30,10 +30,15 @@ local config = {}
 ---@field write boolean            If true, write the modified content back to the source file.
 ---@field extra_args string|nil    Additional command-line arguments.
 
+---@class IfErrConfig
+---@field cmd string               Command to run iferr.
+---@field install_cmd string       Command to install iferr if missing.
+---@field message string|nil	   Custom error to use instead of default 'err' e.g. 'fmt.Errorf("error: %w", err)'
+
 ---@class ToolsOptions
 ---@field gomodifytags GoModifyTagsConfig
 ---@field gotests table          Configuration for gotests.
----@field iferr table            Configuration for iferr.
+---@field iferr IfErrConfig      Configuration for iferr.
 ---@field impl table             Configuration for impl.
 ---@field fillstruct table       Configuration for fillstruct.
 ---@field fillswitch table       Configuration for fillswitch.
@@ -41,7 +46,7 @@ local config = {}
 
 -- Default configuration for all integrated Go tools.
 config.options = {
----@type ToolsOptions
+	---@type ToolsOptions
 	tools = {
 		gomodifytags = {
 			cmd = "gomodifytags",
@@ -77,6 +82,7 @@ config.options = {
 		iferr = {
 			cmd = "iferr",
 			install_cmd = "go install github.com/koron/iferr@latest",
+			message = nil,
 		},
 		impl = {
 			cmd = "impl",

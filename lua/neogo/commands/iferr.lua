@@ -4,9 +4,6 @@
 local config = require("neogo.config")
 local utils = require("neogo.utils")
 
---- @class IferrOpts
---- @field message string|nil Optional custom error message.
-
 local iferr = {}
 
 --- Inserts an error checking snippet at the cursor position.
@@ -15,7 +12,7 @@ local iferr = {}
 --- The command is constructed as:
 ---   iferr -pos {bytes} [-message {custom message}] < {filename}
 --- and its output is inserted into the current buffer in a new line after the current line.
---- @param opts IferrOpts? Options table for customization.
+--- @param opts IfErrConfig? Options table for customization.
 function iferr.insert(opts)
 	opts = opts or {}
 	local tool_config = config.options.tools.iferr
