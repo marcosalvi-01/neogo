@@ -62,6 +62,15 @@ local config = {}
 --- @field nocomments boolean Removes auto-generated comments.
 --- @field buildtag string|nil Adds build tags to the generated enum file.
 
+--- @class ImplOpts
+--- @field cmd string               Command to run iferr.
+--- @field install_cmd string       Command to install iferr if missing.
+--- @field recv string|nil The receiver string, e.g., "f *File". If nil, will be inferred or prompted.
+--- @field iface string|nil The interface to implement, e.g., "io.Reader". If nil, will prompt.
+--- @field comments boolean Whether to include interface comments (default true).
+--- @field dir string|nil Package source directory.
+--- @field recvpkg string|nil Package name of the receiver.
+
 --- @class FixpluralsOpts
 --- @field cmd string               Command to run iferr.
 --- @field install_cmd string       Command to install iferr if missing.
@@ -71,7 +80,7 @@ local config = {}
 ---@field gomodifytags GoModifyTagsConfig
 ---@field gotests table          Configuration for gotests.
 ---@field iferr IfErrConfig      Configuration for iferr.
----@field impl table             Configuration for impl.
+---@field impl ImplOpts             Configuration for impl.
 ---@field fixplurals FixpluralsOpts
 ---@field goenum GoenumOpts           Configuration for goenum.
 
@@ -106,10 +115,6 @@ config.options = {
 			write = false,
 			extra_args = nil,
 		},
-		gotests = {
-			cmd = "gotests",
-			install_cmd = "go install github.com/cweill/gotests/...@latest",
-		},
 		iferr = {
 			cmd = "iferr",
 			install_cmd = "go install github.com/koron/iferr@latest",
@@ -118,6 +123,11 @@ config.options = {
 		impl = {
 			cmd = "impl",
 			install_cmd = "go install github.com/josharian/impl@latest",
+			recv = nil,
+			iface = nil,
+			comments = true,
+			dir = nil,
+			recvpkg = nil,
 		},
 		-- TODO: recursive (or not) fillstruct using gopls
 		-- TODO: fillswitch (it works only on type switches)

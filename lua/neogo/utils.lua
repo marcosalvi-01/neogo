@@ -3,6 +3,57 @@
 
 local utils = {}
 
+--- Finds an appropriate insertion point using Treesitter.
+--- This function attempts to locate the outer block (e.g. a function, struct, or interface declaration)
+--- that encloses the current cursor. If found, it returns the line number (1-indexed) immediately after
+--- the block's end. Otherwise, it returns the current cursor line.
+--- @return number The line number where new code should be inserted.
+function utils.find_insertion_point()
+	local ts_utils_ok, ts_utils = pcall(require, "nvim-treesitter.ts_utils")
+	if not ts_utils_ok then
+		return utils.get_cursor_position().line
+	end
+
+	local node = ts_utils.get_node_at_cursor()
+	if not node then
+		return utils.get_cursor_position().line
+	end
+
+	local target = node
+	while target do
+		local node_type = target:type()
+		if node_type == "block" or node_type == "interface_type" or node_type == "struct_type" then
+			break
+		elseif node_type == "type_spec" then
+			-- If we are on a type_spec, try to find its child that is a struct or interface type.
+			for i = 0, target:named_child_count() - 1 do
+				local child = target:named_child(i)
+				local child_type = child:type()
+				if child_type == "struct_type" or child_type == "interface_type" then
+					target = child
+					break
+				end
+			end
+			break
+		end
+		target = target:parent()
+	end
+
+	if target then
+		-- If the target is a struct_type, climb to its parent (usually a type_spec) to get the full declaration.
+		if target:type() == "struct_type" then
+			local parent = target:parent()
+			if parent and parent:type() == "type_spec" then
+				target = parent
+			end
+		end
+		local _start_row, _start_col, end_row, _end_col = target:range()
+		return end_row + 1 -- Insert after the block's end.
+	else
+		return utils.get_cursor_position().line
+	end
+end
+
 --- Notifies an error using Neovim's notification system.
 --- @param msg string Error message.
 function utils.notify_error(msg)
