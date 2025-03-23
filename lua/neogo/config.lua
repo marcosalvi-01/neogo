@@ -35,13 +35,40 @@ local config = {}
 ---@field install_cmd string       Command to install iferr if missing.
 ---@field message string|nil	   Custom error to use instead of default 'err' e.g. 'fmt.Errorf("error: %w", err)'
 
+--- @class GoenumOpts
+--- @field cmd string               Command to run iferr.
+--- @field install_cmd string       Command to install iferr if missing.
+--- @field show_generated boolean Wether to open the generated file in a new buffer.
+--- @field extra string|nil Additional custom flags.
+--- @field noprefix boolean Prevents the constants generated from having the enum as a prefix.
+--- @field lower boolean Adds lowercase variants of the enum strings for lookup.
+--- @field nocase boolean Adds case insensitive parsing (implies lower).
+--- @field marshal boolean Adds text marshalling functions.
+--- @field sql boolean Adds SQL database scan and value functions.
+--- @field sqlint boolean Stores string typed enums as integers in SQL.
+--- @field flag boolean Adds golang flag functions.
+--- @field prefix string|nil Custom prefix for the generated constants.
+--- @field names boolean Generates a 'Names() []string' function.
+--- @field values boolean Generates a 'Values() []{{ENUM}}' function.
+--- @field nocamel boolean Disables snake_case to CamelCase conversion.
+--- @field ptr boolean Adds a pointer method to get a pointer from const values.
+--- @field sqlnullint boolean Generates a Null{{ENUM}} type for nullable int values.
+--- @field sqlnullstr boolean Generates a Null{{ENUM}} type for nullable string values.
+--- @field template string|nil Path to a custom template file.
+--- @field alias string|nil Aliases for non-alphanumeric values (e.g., "key:value").
+--- @field mustparse boolean Adds a Must version of the Parse function.
+--- @field forcelower boolean Forces a camel cased comment to generate lowercased names.
+--- @field forceupper boolean Forces a camel cased comment to generate uppercased names.
+--- @field nocomments boolean Removes auto-generated comments.
+--- @field buildtag string|nil Adds build tags to the generated enum file.
+
 ---@class ToolsOptions
 ---@field gomodifytags GoModifyTagsConfig
 ---@field gotests table          Configuration for gotests.
 ---@field iferr IfErrConfig      Configuration for iferr.
 ---@field impl table             Configuration for impl.
 ---@field fillswitch table       Configuration for fillswitch.
----@field goenum table           Configuration for goenum.
+---@field goenum GoenumOpts           Configuration for goenum.
 
 -- Default configuration for all integrated Go tools.
 config.options = {
@@ -95,6 +122,29 @@ config.options = {
 		goenum = {
 			cmd = "go-enum",
 			install_cmd = "go install github.com/abice/go-enum@latest",
+			show_generated = false,
+			extra = nil,
+			noprefix = false,
+			lower = false,
+			nocase = false,
+			marshal = false,
+			sql = false,
+			sqlint = false,
+			flag = false,
+			prefix = nil,
+			names = false,
+			values = true,
+			nocamel = false,
+			ptr = false,
+			sqlnullint = false,
+			sqlnullstr = false,
+			template = nil,
+			alias = nil,
+			mustparse = false,
+			forcelower = false,
+			forceupper = false,
+			nocomments = false,
+			buildtag = nil,
 		},
 	},
 }
