@@ -18,7 +18,6 @@ M.gomodifytags = require("neogo.commands.gomodifytags")
 M.gotests = require("neogo.commands.gotests")
 M.iferr = require("neogo.commands.iferr")
 M.impl = require("neogo.commands.impl")
-M.fillstruct = require("neogo.commands.fillstruct")
 M.fillswitch = require("neogo.commands.fillswitch")
 M.goenum = require("neogo.commands.goenum")
 
