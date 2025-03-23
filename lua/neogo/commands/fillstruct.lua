@@ -14,9 +14,11 @@ function fillstruct.at_cursor(opts)
 	local tool_config = config.options.tools.fillstruct
 	local args = ""
 	local output = tools.run(tool_config, args)
-	if output then
-		vim.notify("fillstruct executed successfully.", vim.log.levels.INFO)
+	if output and output ~= "" then
+		local pos = utils.get_cursor_position()
+		utils.insert_output_after_line(output, pos.line)
 	end
+	vim.notify("fillstruct executed successfully.", vim.log.levels.INFO)
 end
 
 return fillstruct

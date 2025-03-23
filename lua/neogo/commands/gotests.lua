@@ -14,9 +14,11 @@ function gotests.generate_for_function(opts)
 	local tool_config = config.options.tools.gotests
 	local args = "-only " .. (opts.func or "current")
 	local output = tools.run(tool_config, args)
-	if output then
-		vim.notify("gotests generation executed successfully.", vim.log.levels.INFO)
+	if output and output ~= "" then
+		local pos = utils.get_cursor_position()
+		utils.insert_output_after_line(output, pos.line)
 	end
+	vim.notify("gotests generation executed successfully.", vim.log.levels.INFO)
 end
 
 --- Generates table-driven tests.
@@ -26,9 +28,11 @@ function gotests.generate_table_tests(opts)
 	local tool_config = config.options.tools.gotests
 	local args = "-table"
 	local output = tools.run(tool_config, args)
-	if output then
-		vim.notify("gotests table-driven generation executed successfully.", vim.log.levels.INFO)
+	if output and output ~= "" then
+		local pos = utils.get_cursor_position()
+		utils.insert_output_after_line(output, pos.line)
 	end
+	vim.notify("gotests table-driven generation executed successfully.", vim.log.levels.INFO)
 end
 
 return gotests
