@@ -62,12 +62,17 @@ local config = {}
 --- @field nocomments boolean Removes auto-generated comments.
 --- @field buildtag string|nil Adds build tags to the generated enum file.
 
+--- @class FixpluralsOpts
+--- @field cmd string               Command to run iferr.
+--- @field install_cmd string       Command to install iferr if missing.
+--- @field packages string|nil Package(s) to run fixplurals on. Defaults to the directory of the current file.
+
 ---@class ToolsOptions
 ---@field gomodifytags GoModifyTagsConfig
 ---@field gotests table          Configuration for gotests.
 ---@field iferr IfErrConfig      Configuration for iferr.
 ---@field impl table             Configuration for impl.
----@field fillswitch table       Configuration for fillswitch.
+---@field fixplurals FixpluralsOpts
 ---@field goenum GoenumOpts           Configuration for goenum.
 
 -- Default configuration for all integrated Go tools.
@@ -115,9 +120,10 @@ config.options = {
 			install_cmd = "go install github.com/josharian/impl@latest",
 		},
 		-- TODO: recursive (or not) fillstruct using gopls
-		fillswitch = {
-			cmd = "fillswitch",
-			install_cmd = "go install github.com/davidrjonas/fillswitch@latest",
+		-- TODO: fillswitch (it works only on type switches)
+		fixplurals = {
+			cmd = "fixplurals",
+			install_cmd = "go install github.com/davidrjenni/reftools/cmd/fixplurals@latest",
 		},
 		goenum = {
 			cmd = "go-enum",

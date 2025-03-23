@@ -18,7 +18,7 @@ M.gomodifytags = require("neogo.commands.gomodifytags")
 M.gotests = require("neogo.commands.gotests")
 M.iferr = require("neogo.commands.iferr")
 M.impl = require("neogo.commands.impl")
-M.fillswitch = require("neogo.commands.fillswitch")
+M.fixplurals = require("neogo.commands.fixplurals")
 M.goenum = require("neogo.commands.goenum")
 
 M.version = "0.1.0"
