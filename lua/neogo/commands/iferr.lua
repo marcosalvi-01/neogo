@@ -53,6 +53,9 @@ function iferr.insert(opts)
 	-- Insert the output after the current line with proper indentation.
 	utils.insert_output_after_line(output, line)
 
+	-- go to the first argument returned
+	vim.cmd("normal jj_fnw")
+
 	vim.notify("iferr snippet inserted successfully.", vim.log.levels.INFO)
 end
 
